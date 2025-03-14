@@ -4,6 +4,7 @@ import { Server } from "socket.io";
 import router from "./router.js";
 import { addUser, removeUser, getUser, getUserInRoom } from "./users.js";
 
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 const server = createServer(app);
@@ -16,7 +17,7 @@ const io = new Server(server, {
 
 app.use(router);
 
-server.listen(3000, () => {
+server.listen(PORT, () => {
   console.log("Listening on port 3000");
 });
 
