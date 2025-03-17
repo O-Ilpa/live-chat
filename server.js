@@ -2,7 +2,7 @@ import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import router from "./router.js";
-import { addUser, removeUser, getUser, getUserInRoom } from "./users.js";
+import { addUser, getUser } from "./users.js";
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -11,7 +11,7 @@ const server = createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin:"*",
+    origin: "*",
   },
 });
 
@@ -26,11 +26,11 @@ io.on("connection", (socket) => {
     const { user } = addUser({ id: socket.id, name, room });
     socket.emit("message", {
       user: "admin",
-      text: `${user.name} Welcome to the room: ${user.room}`,
+      text: `${user.name}, Welcome to: ${user.room}`,
     });
     socket.broadcast.to(user.room).emit("message", {
       user: "admin",
-      text: `${user.name} has entered the room`,
+      text: `${user.name} has joined`,
     });
     socket.join(user.room);
   });
